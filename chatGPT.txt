@@ -1,0 +1,73 @@
+#include "monty.h"
+
+void stack_push(struct stack_t **stack, int value) {
+  // Create a new stack node.
+  struct stack_t *new_node = malloc(sizeof(struct stack_t));
+
+  // Check if the new node was created successfully.
+  if (new_node == NULL) {
+    fprintf(stderr, "Error: malloc failed\n");
+    exit(EXIT_FAILURE);
+  }
+
+  // Initialize the new node.
+  new_node->value = value;
+  new_node->next = *stack;
+
+  // Set the stack pointer to the new node.
+  *stack = new_node;
+}
+
+int get_next_int_argument(unsigned int line_number) {
+  // Get the next word from the instruction.
+  char *word = get_next_word(line_number);
+
+  // Check if the word is a number.
+  if (!is_number(word)) {
+    fprintf(stderr, "Error: expected number at line %u\n", line_number);
+    exit(EXIT_FAILURE);
+  }
+
+  // Convert the word to an integer.
+  int value = atoi(word);
+
+  // Free the memory allocated for the word.
+  free(word);
+
+  // Return the value.
+  return value;
+}
+
+char *get_next_word(unsigned int line_number) {
+  // Get the current instruction.
+  char *instruction = get_instruction(line_number);
+
+  // Find the first space in the instruction.
+  char *space = strchr(instruction, ' ');
+
+  // If there is no space, return the entire instruction.
+  if (space == NULL) {
+    return instruction;
+  }
+
+  // Return the substring up to the first space.
+  return strndup(instruction, space - instruction);
+}
+
+char *get_instruction(unsigned int line_number) {
+  // Get the current instruction from the file.
+  char *instruction = fgets(buffer, BUFFER_SIZE, fp);
+
+  // Check if the instruction was read successfully.
+  if (instruction == NULL) {
+    fprintf(stderr, "Error: failed to read instruction at line %u\n", line_number);
+    exit(EXIT_FAILURE);
+  }
+
+  // Strip the newline character from the end of the instruction.
+  instruction[strcspn(instruction, "\n")] = '\0';
+
+  // Return the instruction.
+  return instruction;
+}
+
