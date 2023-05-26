@@ -26,7 +26,7 @@ void read_file(char *monty_file, stack_t **stack)
 	while ((read = getline(&line_content, &i, m_file)) != -1)
 	{
 		opcode = strtok(line_content, " \t");
-		if (opcode[0] == '#' || opcode == NULL)
+		if (opcode[0] == '#')
 		{
 			line_number++;
 			break;
