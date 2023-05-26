@@ -2,8 +2,8 @@
 
 /**
  * read_file - reads the monty file and process each line
- *
- *
+ * @monty_file: path to file containing the opcodes
+ * @stack: pointer to stack
  */
 
 void read_file(char *monty_file, stack_t **stack)
@@ -13,7 +13,7 @@ void read_file(char *monty_file, stack_t **stack)
 	char *opcode = NULL;
 	function_ptr some_function;
 	char *line_content; /* store content of line read */
-	size_t i =0; /* tracks size allocated to line_content  */
+	size_t i = 0; /* tracks size allocated to line_content  */
 	ssize_t read; /*tracks number of chars read */
 
 	m_file = fopen(monty_file, "r");
@@ -35,6 +35,7 @@ void read_file(char *monty_file, stack_t **stack)
 		if (some_function == NULL)
 		{
 			fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
+			free(stack);
 			exit(EXIT_FAILURE);
 		}
 		some_function(stack, line_number);
