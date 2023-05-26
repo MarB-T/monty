@@ -19,14 +19,14 @@ void read_file(char *monty_file, stack_t **stack)
 	m_file = fopen(monty_file, "r");
 	if (m_file == NULL)
 	{
-		fprintf(stderr, "Error: Can't open file %p\n", monty_file);
+		fprintf(stderr, "Error: Can't open file %s\n", monty_file);
 		exit(EXIT_FAILURE);
 	}
 
 	while ((read = getline(&line_content, &i, m_file)) != -1)
 	{
-		opcode = strtok(line_content, " \t\n");
-		if (opcode[0] == '#')
+		opcode = strtok(line_content, " \t");
+		if (opcode[0] == '#' || opcode == NULL)
 		{
 			line_number++;
 			break;
@@ -41,7 +41,8 @@ void read_file(char *monty_file, stack_t **stack)
 		some_function(stack, line_number);
 		line_number++;
 	}
-	free(line_content);
+	if (line_content != NULL)
+		free(line_content);
 	close = fclose(m_file);
 	if (close == -1)
 	{
