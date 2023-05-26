@@ -34,8 +34,7 @@ void read_file(char *monty_file, stack_t **stack)
 		some_function = chk_function(opcode);
 		if (some_function == NULL)
 		{
-			fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
-			free(stack);
+			fprintf(stderr, "L%d: unknown instruction %s", line_number, opcode);
 			exit(EXIT_FAILURE);
 		}
 		some_function(stack, line_number);
