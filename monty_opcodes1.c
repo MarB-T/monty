@@ -15,7 +15,7 @@ void push_m(stack_t **stack, unsigned int line_number)
 	new = malloc(sizeof(stack_t));
 	if (!new)
 	{
-		fprintf("Error: malloc failed\n");
+		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -26,7 +26,8 @@ void push_m(stack_t **stack, unsigned int line_number)
 	}
 	else
 	{
-		printf("L%d: usage: push integer\n", line_number);
+		fprintf(stderr, "L%d: usage: push integer\n", line_number);
+		free(*stack);
 		exit(EXIT_FAILURE);
 	}
 
@@ -66,7 +67,7 @@ void pint_m(stack_t **stack, unsigned int line_number)
 	runner = *stack;
 	if (runner == NULL)
 	{
-		printf("L%d: can't pint, stack empty\n", line_number);
+		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 	printf("%d\n", runner->n);

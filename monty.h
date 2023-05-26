@@ -1,6 +1,8 @@
 #ifndef MONTY_H
 #define MONTY_H
 
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -37,8 +39,9 @@ typedef struct instruction_s
         void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+extern int is_stack;
 
-void read_file(FILE *m_file, stact_t **stack);
+void read_file(char *m_file, stack_t **stack);
 typedef void (*function_ptr)(stack_t **stack, unsigned int line_number);
 function_ptr chk_function(char *opcode_m);
 void push_m(stack_t **stack, unsigned int line_number);
@@ -49,6 +52,13 @@ void swap_m(stack_t **stack, unsigned int line_number);
 void add_m(stack_t **stack, unsigned int line_number);
 void sub_m(stack_t **stack, unsigned int line_number);
 void mul_m(stack_t **stack, unsigned int line_number);
+void free_dlistint(stack_t *head);
+stack_t *add_dnodeint_end(stack_t **head, const int n);
+stack_t *add_dnodeint(stack_t **head, const int n);
+int delete_dnodeint_at_index(stack_t **head, unsigned int index);
+void stack_m(__attribute__ ((unused)) stack_t **stack, __attribute__ ((unused)) unsigned int line_number);
+void queue_m(__attribute__ ((unused))stack_t **stack, __attribute__ ((unused))unsigned int line_number);
+void nop_m(__attribute__ ((unused))stack_t **stack, __attribute__ ((unused))unsigned int line_number);
 void mod_m(stack_t **stack, unsigned int line_number);
 void div_m(stack_t **stack, unsigned int line_number);
 void pstr_m(stack_t **stack, __attribute__ ((unused))unsigned int line_number);

@@ -6,10 +6,10 @@
  *
  */
 
-void read_file(FILE *monty_file, stact_t **stack)
+void read_file(char *monty_file, stack_t **stack)
 {
-	FILE *m-file;
-	int line_number = 1;
+	FILE *m_file;
+	int line_number = 1, close;
 	char *opcode = NULL;
 	function_ptr some_function;
 	char *line_content; /* store content of line read */
@@ -19,7 +19,7 @@ void read_file(FILE *monty_file, stact_t **stack)
 	m_file = fopen(monty_file, "r");
 	if (m_file == NULL)
 	{
-		fprintf(stderr, "Error: Can't open file %s\n", monty_file);
+		fprintf(stderr, "Error: Can't open file %p\n", monty_file);
 		exit(EXIT_FAILURE);
 	}
 
@@ -37,15 +37,15 @@ void read_file(FILE *monty_file, stact_t **stack)
 			fprintf(stderr, "L%d: unknown instruction %s\n", line_number, opcode);
 			exit(EXIT_FAILURE);
 		}
-		some_function(*stack, line_number);
+		some_function(stack, line_number);
 		line_number++;
 	}
-	free(line_contect);
+	free(line_content);
 	close = fclose(m_file);
 	if (close == -1)
 	{
 		fprintf(stderr, "File close error\n");
-		exit(-1)
+		exit(-1);
 	}
 }
 
@@ -76,10 +76,31 @@ function_ptr chk_function(char *opcode_m)
 		{"stack", stack_m},
 		{"queue", queue_m},
 		{NULL, NULL}
-	}
+	};
 	while (instruct[i].f != NULL && strcmp(instruct[i].opcode, opcode_m) != 0)
 	{
 		i++;
 	}
 	return (instruct[i].f);
+}
+
+/**
+ * stack_m - sets is_stack to stack
+ * @stack: pointer to stack list
+ * @line_number: line opcode occurs on
+ */
+void stack_m(__attribute__ ((unused)) stack_t **stack,
+	    __attribute__ ((unused)) unsigned int line_number)
+{
+	is_stack = 0;
+}
+/**
+ * queue_m - sets is_stack to queue
+ * @stack: pointer to stack list
+ * @line_number: line opcode occurs on
+ */
+void queue_m(__attribute__ ((unused))stack_t **stack,
+	    __attribute__ ((unused))unsigned int line_number)
+{
+	is_stack = 1;
 }
