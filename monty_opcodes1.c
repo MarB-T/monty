@@ -39,10 +39,12 @@ void pall_m(stack_t **stack, __attribute__ ((unused))unsigned int line_number)
 	stack_t *runner;
 
 	runner = *stack;
-	while (runner != NULL)
+	while (runner)
 	{
 		printf("%d\n", runner->n);
 		runner = runner->next;
+		if (runner == *stack)
+			return;
 	}
 }
 

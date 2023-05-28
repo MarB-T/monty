@@ -25,8 +25,8 @@ void read_file(char *monty_file, stack_t **stack)
 
 	while ((read = getline(&line_content, &i, m_file)) != -1)
 	{
-		opcode = strtok(line_content, " \t");
-		if (opcode[0] == '#' || opcode == NULL)
+		opcode = strtok(line_content, " \t\n");
+		if (opcode[0] == '#')
 		{
 			line_number++;
 			break;
@@ -61,7 +61,6 @@ function_ptr chk_function(char *opcode_m)
 
 	instruction_t instruct[] = {
 		{"push", push_m},
-		{"pall", pall_m},
 		{"pint", pint_m},
 		{"pop", pop_m},
 		{"swap", swap_m},
@@ -70,6 +69,7 @@ function_ptr chk_function(char *opcode_m)
 		{"sub", sub_m},
 		{"div", div_m},
 		{"mul", mul_m},
+		{"pall", pall_m},
 		{"mod", mod_m},
 		{"nop", nop_m},
 		{"rotr", rotl_m},
@@ -78,10 +78,18 @@ function_ptr chk_function(char *opcode_m)
 		{"queue", queue_m},
 		{NULL, NULL}
 	};
-	while (instruct[i].f != NULL && strcmp(instruct[i].opcode, opcode_m) != 0)
+	while (instruct[i].opcode != NULL)
 	{
+		if (strcmp(instruct[i].opcode, opcode_m) == 0)
+		{
+			return (instruct[i].f);
+		}
 		i++;
 	}
+/*	while (instruct[i].f != NULL && strcmp(instruct[i].opcode, opcode_m) != 0)
+	{
+		i++;
+	}*/
 	return (instruct[i].f);
 }
 
